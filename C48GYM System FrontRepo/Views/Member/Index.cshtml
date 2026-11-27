@@ -1,0 +1,85 @@
+﻿@model IEnumerable<MemberViewModel>
+@{
+    ViewData["Title"] = "Members";
+}
+@if (TempData["SuccessMessage"] is not null || TempData["ErrorMessage"] is not null)
+{
+    <div class="toasts" role="status" aria-live="polite">
+        @if (TempData["SuccessMessage"] is not null)
+        {
+            <div class="toast-r"><i class="bi bi-check-circle-fill"></i><span>@TempData["SuccessMessage"]</span><button type="button" aria-label="Close">&times;</button></div>
+        }
+        @if (TempData["ErrorMessage"] is not null)
+        {
+            <div class="toast-r error"><i class="bi bi-exclamation-circle-fill"></i><span>@TempData["ErrorMessage"]</span><button type="button" aria-label="Close">&times;</button></div>
+        }
+    </div>
+}
+
+<div class="page-head">
+    <div>
+        <h1 class="page-title">Members</h1>
+        <p class="page-sub">Everyone registered at the gym. Open a member to see their current plan.</p>
+    </div>
+    <div class="page-actions">
+        <a class="btn-r btn-outline-r" asp-controller="Membership" asp-action="Create"><i class="bi bi-card-checklist"></i> New membership</a>
+        <a class="btn-r btn-primary-r" asp-action="Create"><i class="bi bi-person-plus"></i> Add member</a>
+    </div>
+</div>
+
+<div class="card-r">
+    @if (!Model.Any())
+    {
+        <div class="empty">
+            <div class="empty-icon"><i class="bi bi-people"></i></div>
+            <h3>No members yet</h3>
+            <p>Add your first member to start selling memberships.</p>
+            <a class="btn-r btn-primary-r" asp-action="Create"><i class="bi bi-person-plus"></i> Add member</a>
+        </div>
+    }
+    else
+    {
+        <div class="toolbar">
+            <div class="search">
+                <i class="bi bi-search"></i>
+                <input type="search" placeholder="Search by name or phone" data-search="#members-body" aria-label="Search members" />
+            </div>
+            <span class="count-pill">@Model.Count() members</span>
+        </div>
+        <div class="table-wrap">
+            <table class="table-r">
+                <thead>
+                    <tr>
+                        <th>Member</th>
+                        <th>Phone</th>
+                        <th>Gender</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="members-body">
+                    @foreach (var member in Model)
+                    {
+                        <tr data-search-item>
+                            <td>
+                                <div class="person">
+                                    <img class="avatar" src="~/images/default-avatar.png" alt="" />
+                                    <div>
+                                        <a class="person-name" asp-action="Details" asp-route-id="@member.Id">@member.Name</a>
+                                        <div class="person-meta">@member.Email</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>@member.Phone</td>
+                            <td>@member.Gender</td>
+                            <td class="actions">
+                                <a class="icon-btn" asp-action="Details" asp-route-id="@member.Id" title="View"><i class="bi bi-eye"></i></a>
+                                <a class="icon-btn" asp-action="Edit" asp-route-id="@member.Id" title="Edit"><i class="bi bi-pencil"></i></a>
+                                <a class="icon-btn danger" asp-action="Delete" asp-route-id="@member.Id" title="Delete"><i class="bi bi-trash3"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

@@ -1,0 +1,65 @@
+﻿@model UpdateMemberViewModel
+
+@{
+    ViewData["Title"] = "Edit member";
+}
+
+<div class="page-head">
+    <div>
+        <h1 class="page-title">Edit member</h1>
+        <p class="page-sub">Update contact details for <strong>@Model.Name</strong>. The name can't be changed.</p>
+    </div>
+</div>
+
+<form asp-action="Edit" method="post" class="card-r form-card">
+    <input type="hidden" asp-for="Name" />
+    <div asp-validation-summary="ModelOnly" class="form-alert"></div>
+
+    <div class="form-section">
+        <h2 class="form-section-title">Contact</h2>
+        <p class="form-section-hint">Email and phone must be unique.</p>
+        <div class="form-grid">
+            <div class="field">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="input-r" />
+                <span asp-validation-for="Email" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Phone"></label>
+                <input asp-for="Phone" class="input-r" />
+                <span asp-validation-for="Phone" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2 class="form-section-title">Address</h2>
+        <p class="form-section-hint">Letters, numbers and spaces only.</p>
+        <div class="form-grid three">
+            <div class="field">
+                <label asp-for="BuildingNumber"></label>
+                <input asp-for="BuildingNumber" class="input-r" min="1" max="9000" />
+                <span asp-validation-for="BuildingNumber" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Street"></label>
+                <input asp-for="Street" class="input-r" />
+                <span asp-validation-for="Street" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="City"></label>
+                <input asp-for="City" class="input-r" />
+                <span asp-validation-for="City" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a class="btn-r btn-ghost-r" asp-action="Index">Cancel</a>
+        <button type="submit" class="btn-r btn-primary-r"><i class="bi bi-check2"></i> Save changes</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

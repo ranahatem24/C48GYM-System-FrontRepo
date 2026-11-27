@@ -1,0 +1,82 @@
+﻿@using GymManagement.Entities.Enums
+@model CreateMemberViewModel
+
+@{
+    ViewData["Title"] = "Add member";
+}
+
+<div class="page-head">
+    <div>
+        <h1 class="page-title">Add member</h1>
+        <p class="page-sub">Register a new member. You can give them a membership right after.</p>
+    </div>
+</div>
+
+<form asp-action="Create" method="post"  class="card-r form-card">
+    <div asp-validation-summary="ModelOnly" class="form-alert"></div>
+    <div class="form-section">
+        <h2 class="form-section-title">Personal info</h2>
+        <p class="form-section-hint">Email and phone must be unique.</p>
+        <div class="form-grid">
+            <div class="field full">
+                <label asp-for="Name">Full name</label>
+                <input asp-for="Name" class="input-r" placeholder="e.g. Ahmed Hassan" />
+                <span asp-validation-for="Name" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="input-r" placeholder="name@example.com" />
+                <span asp-validation-for="Email" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Phone"></label>
+                <input asp-for="Phone" class="input-r" placeholder="01xxxxxxxxx" />
+                <span asp-validation-for="Phone" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="DateOfBirth"></label>
+                <input asp-for="DateOfBirth" type="date" class="input-r" />
+                <span asp-validation-for="DateOfBirth" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label>Gender</label>
+                <div class="segmented">
+                    <label><input type="radio" asp-for="Gender" value="@Gender.Male" /><span><i class="bi bi-gender-male"></i> Male</span></label>
+                    <label><input type="radio" asp-for="Gender" value="@Gender.Female" /><span><i class="bi bi-gender-female"></i> Female</span></label>
+                </div>
+                <span asp-validation-for="Gender" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2 class="form-section-title">Address</h2>
+        <p class="form-section-hint">Letters, numbers and spaces only.</p>
+        <div class="form-grid three">
+            <div class="field">
+                <label asp-for="BuildingNumber"></label>
+                <input asp-for="BuildingNumber" class="input-r" min="1" max="9000" />
+                <span asp-validation-for="BuildingNumber" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Street"></label>
+                <input asp-for="Street" class="input-r" />
+                <span asp-validation-for="Street" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="City"></label>
+                <input asp-for="City" class="input-r" />
+                <span asp-validation-for="City" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a class="btn-r btn-ghost-r" asp-action="Index">Cancel</a>
+        <button type="submit" class="btn-r btn-primary-r"><i class="bi bi-check2"></i> Save member</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,68 @@
+﻿@model MemberDetailsViewModel
+@{
+    ViewData["Title"] = $"{Model.Name} Details";
+}
+<div class="card-r" style="margin-bottom:18px">
+    <div class="profile-head">
+        <img class="avatar avatar-lg" src="~/images/default-avatar.png" />
+        <div>
+            <h2>@Model.Name</h2>
+            @if (Model.MembershipStatus is not null)
+            {
+
+               var css = Model.MembershipStatus switch
+                 {
+                     "Active" => "badge-ok",
+                     "Upcoming" => "badge-info",
+                     "Ongoing" => "badge-warn",
+                     _ => "badge-mute"
+                 };
+                <span class="badge-r @css">@Model.MembershipStatus</span>
+             }
+            else
+            {
+                <span class="badge-r badge-mute">No membership</span>
+            }
+        </div>
+        <div class="actions">
+            <a class="btn-r btn-outline-r" asp-action="Edit" asp-route-id="@Model.Id"><i class="bi bi-pencil"></i> Edit</a>
+            <a class="btn-r btn-soft-danger" asp-action="Delete" asp-route-id="@Model.Id"><i class="bi bi-trash3"></i> Delete</a>
+        </div>
+    </div>
+</div>
+
+<div class="details-layout">
+    <div class="card-r">
+        <div class="card-head"><h2>Personal info</h2></div>
+        <div class="info-grid" style="margin-top:-1px">
+            <div class="info-item"><div class="info-label">Email</div><div class="info-value">@Model.Email</div></div>
+            <div class="info-item"><div class="info-label">Phone</div><div class="info-value">@Model.Phone</div></div>
+            <div class="info-item"><div class="info-label">Gender</div><div class="info-value">@Model.Gender</div></div>
+            <div class="info-item"><div class="info-label">Date of birth</div><div class="info-value">@Model.DateOfBirth</div></div>
+            <div class="info-item" style="grid-column:1/-1;border-right:0"><div class="info-label">Address</div><div class="info-value">@Model.Address</div></div>
+        </div>
+    </div>
+
+    @if (Model.PlanName is not null)
+    {
+        <div class="panel-dark">
+            <h3>Current membership</h3>
+            <div class="big">@Model.PlanName</div>
+            <div class="row-kv"><span>Status</span><span>@Model.MembershipStatus</span></div>
+            <div class="row-kv"><span>Starts</span><span>@Model.MembershipStartDate</span></div>
+            <div class="row-kv"><span>Ends</span><span>@Model.MembershipEndDate</span></div>
+        </div>
+    }
+    else
+    {
+        <div class="card-r card-pad">
+            <div class="callout">
+                <i class="bi bi-info-circle"></i>
+                <div><strong>No current membership.</strong> This member can't attend until they're on a plan.</div>
+            </div>
+            <a class="btn-r btn-primary-r" style="margin-top:16px;width:100%" asp-controller="Membership" asp-action="Create" asp-route-memberId="@Model.Id">
+                <i class="bi bi-plus-lg"></i> Give a membership
+            </a>
+        </div>
+    }
+</div>

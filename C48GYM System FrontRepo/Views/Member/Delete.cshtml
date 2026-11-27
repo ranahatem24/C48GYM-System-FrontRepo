@@ -1,0 +1,31 @@
+﻿@model MemberDetailsViewModel
+@{
+    ViewData["Title"] = "Delete member";
+}
+
+<div class="card-r confirm-card">
+    <div class="confirm-icon"><i class="bi bi-trash3"></i></div>
+    <h2>Delete this member?</h2>
+    <p>Their profile, photo and membership history will be removed. This can't be undone.</p>
+
+    <div class="confirm-summary">
+        <img class="avatar" src="~/images/default-avatar.png" />
+        <div>
+            <div class="fw-800">@Model.Name</div>
+            <div class="muted" style="font-size:13.5px">@Model.Email · @Model.Phone</div>
+        </div>
+    </div>
+
+    @if (Model.PlanName is not null)
+    {
+        <div class="callout danger" style="text-align:left;margin-bottom:22px">
+            <i class="bi bi-exclamation-triangle"></i>
+            <div><strong>@Model.PlanName</strong> is still @Model.MembershipStatus?.ToLower(). Cancel the membership first, or the delete will be refused.</div>
+        </div>
+    }
+
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="confirm-actions">
+        <a class="btn-r btn-outline-r" asp-action="Details" asp-route-id="@Model.Id">Keep member</a>
+        <button type="submit" class="btn-r btn-danger-r"><i class="bi bi-trash3"></i> Delete</button>
+    </form>
+</div>
